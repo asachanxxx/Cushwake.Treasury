@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
+using Cushwake.Treasury.Application.TodoItems.Commands.CreateTodoItem;
 using Cushwake.Treasury.Application.TodoItems.Queries.GetTodoItemsWithPagination;
 using Cushwake.Treasury.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Http;
@@ -67,4 +68,45 @@ internal class TestController : ApiController
 
     }
 
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [FunctionName("CreateTodoItems")]
+    [QueryStringParameter("ListId", "Id of the list", DataType = typeof(int), Required = false)]
+    [QueryStringParameter("Title", "", DataType = typeof(string), Required = false)]
+    [FixedDelayRetry(2, "00:00:10")]
+    public async Task<IActionResult> CreateTodoItems(
+    [HttpTrigger(AuthorizationLevel.Function, "POST", Route = "CreateTodoItems")]
+          HttpRequest request,
+    ILogger logger)
+    {
+        try
+        {
+            //Log the calling status to log
+            logger.LogInformation("GetAtachmentServices called");
+            var type = "Create Call";
+
+            //Accuaring the URL parameters
+            string listId = request.Query["ListId"];
+            string title = request.Query["Title"];
+
+            //Create the CQRS command to send
+            var command = new CreateTodoItemCommand()
+            {
+                ListId = listId.ToInteger(),
+                Title = title
+            };
+            //Inject the Query to Mediator to send 
+            var result = await Mediator.Send(command);
+            //Handling output values and send IActionResult based on what we have
+            return SendSuccessfulGetResult(type, result);
+        }
+        catch (Exception ex)
+        {
+            //in case of an error we will send Error decorated IActionResult result
+            return SendFailedResult(ex, "API", logger);
+        }
+
+    }
 }
