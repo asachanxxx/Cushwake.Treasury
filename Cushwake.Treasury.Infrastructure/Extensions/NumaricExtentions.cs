@@ -9,8 +9,7 @@ namespace Cushwake.Treasury.Infrastructure.Extensions
     public static class NumaricExtentions
     {
         public static int ToInteger(this string source) { 
-            int holder = 0;
-            int.TryParse(source,out holder);
+            int.TryParse(source,out int holder);
             return holder;
         }
     }

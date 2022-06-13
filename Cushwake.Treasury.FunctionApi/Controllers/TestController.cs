@@ -91,6 +91,10 @@ internal class TestController : ApiController
             string listId = request.Query["ListId"];
             string title = request.Query["Title"];
 
+            //Need to implement Genaric Command Bulder 
+            //Out put will be CreateTodoItemCommand
+            //commandBulder<CreateTodoItemCommand>.GetCommand() 
+
             //Create the CQRS command to send
             var command = new CreateTodoItemCommand()
             {

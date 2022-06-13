@@ -6,6 +6,7 @@ namespace Cushwake.Treasury.Application.TodoLists.Queries.GetTodos;
 
 public class TodoItemDto : IMapFrom<TodoItem>
 {
+
     public int Id { get; set; }
 
     public int ListId { get; set; }
@@ -20,7 +21,13 @@ public class TodoItemDto : IMapFrom<TodoItem>
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<TodoItem, TodoItemDto>()
-            .ForMember(d => d.Priority, opt => opt.MapFrom(s => (int)s.Priority));
+        try
+        {
+            profile.CreateMap<TodoItem, TodoItemDto>()
+                .ForMember(d => d.Priority, opt => opt.MapFrom(s => (int)s.Priority));
+        }
+        finally { 
+            
+        }
     }
 }

@@ -3,19 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{2A51B508-7E19-49D0-8AA2-5DA91AFFBFB9}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FunctionApi", "FunctionApi", "{559458FB-5B1F-4C2C-8CFE-CA191FE71408}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{F98615D8-F30B-40E3-B9C6-E6D7B73C29DD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cushwake.Treasury.Application", "Src\Cushwake.Treasury.Application\Cushwake.Treasury.Application.csproj", "{34F51562-C744-4925-9E14-C37720EFEB01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cushwake.Treasury.Application", "Cushwake.Treasury.Application\Cushwake.Treasury.Application.csproj", "{34F51562-C744-4925-9E14-C37720EFEB01}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cushwake.Treasury.Domain", "Src\Cushwake.Treasury.Domain\Cushwake.Treasury.Domain.csproj", "{86637566-CE00-4CDE-9563-F4DB513211BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cushwake.Treasury.Domain", "Cushwake.Treasury.Domain\Cushwake.Treasury.Domain.csproj", "{86637566-CE00-4CDE-9563-F4DB513211BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cushwake.Treasury.Infrastructure", "Src\Cushwake.Treasury.Infrastructure\Cushwake.Treasury.Infrastructure.csproj", "{A15C4473-4A99-4D3E-ABA8-0C75832C62E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cushwake.Treasury.Infrastructure", "Cushwake.Treasury.Infrastructure\Cushwake.Treasury.Infrastructure.csproj", "{A15C4473-4A99-4D3E-ABA8-0C75832C62E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cushwake.Treasury.FunctionApi", "FunctionApi\Cushwake.Treasury.FunctionApi\Cushwake.Treasury.FunctionApi.csproj", "{BD5DAB0D-B34F-41D0-8C76-65AC89CF86F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cushwake.Treasury.FunctionApi", "Cushwake.Treasury.FunctionApi\Cushwake.Treasury.FunctionApi.csproj", "{BD5DAB0D-B34F-41D0-8C76-65AC89CF86F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,12 +38,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{34F51562-C744-4925-9E14-C37720EFEB01} = {2A51B508-7E19-49D0-8AA2-5DA91AFFBFB9}
-		{86637566-CE00-4CDE-9563-F4DB513211BE} = {2A51B508-7E19-49D0-8AA2-5DA91AFFBFB9}
-		{A15C4473-4A99-4D3E-ABA8-0C75832C62E4} = {2A51B508-7E19-49D0-8AA2-5DA91AFFBFB9}
-		{BD5DAB0D-B34F-41D0-8C76-65AC89CF86F4} = {559458FB-5B1F-4C2C-8CFE-CA191FE71408}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {700B5E6E-D1A1-47C1-B6D1-87672D37EE46}
