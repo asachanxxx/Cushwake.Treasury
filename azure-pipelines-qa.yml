@@ -1,0 +1,102 @@
+trigger:
+- qa/*
+
+variables:
+  vmImageName: 'windows-latest'
+  workingDirectory: '$(System.DefaultWorkingDirectory)'
+  disable.coverage.autogenerate: true
+
+stages:
+- stage: Analyze
+  displayName: 'Analyze stage'
+
+  jobs:
+  - job: Analyze
+    displayName: 'Analyze'
+    pool:
+      vmImage: $(vmImageName)
+
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'Create build'
+      inputs:
+        command: build
+        projects: |
+          $(workingDirectory)/Wonder.Integration.sln
+        arguments: --configuration Release    
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Execute tests with coverage'
+      continueOnError: true
+      inputs:
+        command: test
+        projects: '**/*.Test.csproj'
+        arguments: --no-build --configuration Release --collect "XPlat Code Coverage"
+        publishTestResults: true
+
+    - task: reportgenerator@4
+      displayName: 'Generate reports'
+      inputs:
+        reports: '$(Agent.TempDirectory)/*/coverage.cobertura.xml'
+        targetdir: '$(Agent.TempDirectory)/coverage'
+        reporttypes: 'Cobertura;HtmlInline_AzurePipelines'
+
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish code coverage results'
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: $(Agent.TempDirectory)/coverage/cobertura.xml
+        reportDirectory: $(Agent.TempDirectory)/coverage
+        failIfCoverageEmpty: true
+
+- stage: Build
+  displayName: 'Build stage'
+
+  jobs:
+  - job: Build
+    displayName: 'Build'
+    pool:
+      vmImage: $(vmImageName)
+
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'Build DataUploder'
+      inputs:
+        command: 'build'
+        projects: |
+          $(workingDirectory)/Wonder.Integration/*.csproj
+        arguments: --output $(System.DefaultWorkingDirectory)/publish_output_1 --configuration Release
+
+    - task: ArchiveFiles@2
+      displayName: 'Create DataUploader artifact'
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/publish_output_1'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/DataUploader.zip
+        replaceExistingArchive: true
+
+    - publish: $(Build.ArtifactStagingDirectory)/DataUploader.zip
+      displayName: 'Publish DataUploader artifact'
+      artifact: DataUploader
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build ValidationEngine'
+      inputs:
+        command: 'build'
+        projects: |
+          $(workingDirectory)/Wonder.Integration.ValidationService/*.csproj
+        arguments: --output $(System.DefaultWorkingDirectory)/publish_output_2 --configuration Release
+
+    - task: ArchiveFiles@2
+      displayName: 'Create ValidationEngine artifact'
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/publish_output_2'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/ValidationEngine.zip
+        replaceExistingArchive: true
+
+    - publish: $(Build.ArtifactStagingDirectory)/ValidationEngine.zip
+      displayName: 'Publish ValidationEngine artifact'
+      artifact: ValidationEngine
